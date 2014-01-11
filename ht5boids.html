@@ -1,0 +1,140 @@
+<html>
+<head><title>HT5Boids</title></head>
+<!--<style>
+   body {
+    margin:0px;
+    padding:0px;
+    text-align:center;
+  }
+
+  canvas{
+    outline:0;
+    border:1px solid #000;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  </style>-->
+  </head>
+  <body>
+  	<h1>HT5Boids - Yet Another Boids Simulation In HTML5</h1>
+    <canvas id='canvas'></canvas>
+    <p id="status">Status</p>
+	<p><input type="button" value="Reset" onclick="reset()"></input></p>
+	<p>
+	Width: <input type="text" id="gwidth" value="800" onchange="readform()" size="5"></input>
+	Height: <input type="text" id="gheight" value="600" onchange="readform()" size="5"></input>
+	<br>
+	<b>Type 1</b><br>
+	Number <input type="text" id="b0n" value="20" onchange="readform()" size="5"></input>
+	Colour <input type="text" id="b0c" value="#f00" onchange="readform()" size="5"></input>
+	Speed <input type="text" id="b0speed" value="2" onchange="readform()" size="5"></input>
+	Max Turn <input type="text" id="b0mturn" value="10" onchange="readform()" size="5"></input>
+	Edge Avoid Distance <input type="text" id="b0edged" value="50" onchange="readform()" size="5"></input>
+	Edge Avoid Multipler <input type="text" id="b0edgem" value="1.0" onchange="readform()" size="5"></input>
+	Edge Avoid Max Turn <input type="text" id="b0edgemt" value="10" onchange="readform()" size="5"></input>
+	Collision Avoid Distance <input type="text" id="b0cold" value="20" onchange="readform()" size="5"></input>
+	Collision Avoid Multipler <input type="text" id="b0colm" value="1.0" onchange="readform()" size="5"></input>
+	Collision Avoid Max Turn <input type="text" id="b0colmt" value="15" onchange="readform()" size="5"></input>
+	Match Heading Multiplier <input type="text" id="b0mhm" value="1.0" onchange="readform()" size="5"></input>
+	Match Heading Max Turn <input type="text" id="b0mhmt" value="2" onchange="readform()" size="5"></input>
+	Towards Flock Multiplier <input type="text" id="b0tfm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Max Turn <input type="text" id="b0tfmt" value="5" onchange="readform()" size="5"></input>
+
+	Local Flockmate Number <input type="text" id="b0lfn" value="5" onchange="readform()" size="5"></input>
+	Local Flockmate Max Distance <input type="text" id="b0lfmd" value="1000" onchange="readform()" size="5"></input>
+	Flock with same type only <input type="checkbox" checked="checked" id="b0only" onchange="readform()"></input>
+
+	Random Turn Factor (Gaussian) <input type="text" id="b0rtg" value="0" onchange="readform()" size="5"></input>
+	Random Turn Factor (Cauchy) <input type="text" id="b0rtc" value="0" onchange="readform()" size="5"></input>
+	
+	</p>
+	<p><b>Type 2</b><br>
+	Number <input type="text" id="b1n" value="20" onchange="readform()" size="5"></input>
+	Colour <input type="text" id="b1c" value="#00f" onchange="readform()" size="5"></input>
+	Speed <input type="text" id="b1speed" value="2" onchange="readform()" size="5"></input>
+	Max Turn <input type="text" id="b1mturn" value="10" onchange="readform()" size="5"></input>
+	Edge Avoid Distance <input type="text" id="b1edged" value="50" onchange="readform()" size="5"></input>
+	Edge Avoid Multipler <input type="text" id="b1edgem" value="1.0" onchange="readform()" size="5"></input>
+	Edge Avoid Max Turn <input type="text" id="b1edgemt" value="10" onchange="readform()" size="5"></input>
+	Collision Avoid Distance <input type="text" id="b1cold" value="20" onchange="readform()" size="5"></input>
+	Collision Avoid Multipler <input type="text" id="b1colm" value="1.0" onchange="readform()" size="5"></input>
+	Collision Avoid Max Turn <input type="text" id="b1colmt" value="15" onchange="readform()" size="5"></input>
+	Match Heading Multiplier <input type="text" id="b1mhm" value="1.0" onchange="readform()" size="5"></input>
+	Match Heading Max Turn <input type="text" id="b1mhmt" value="2" onchange="readform()" size="5"></input>
+	Towards Flock Multiplier <input type="text" id="b1tfm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Max Turn <input type="text" id="b1tfmt" value="5" onchange="readform()" size="5"></input>
+
+	Local Flockmate Number <input type="text" id="b1lfn" value="5" onchange="readform()" size="5"></input>
+	Local Flockmate Max Distance <input type="text" id="b1lfmd" value="1000" onchange="readform()" size="5"></input>
+	Flock with same type only <input type="checkbox" checked="checked" id="b1only" onchange="readform()"></input>
+
+	Random Turn Factor (Gaussian) <input type="text" id="b1rtg" value="0" onchange="readform()" size="5"></input>
+	Random Turn Factor (Cauchy) <input type="text" id="b1rtc" value="0" onchange="readform()" size="5"></input>
+	</p>
+	
+	<p><b>Type 3</b><br>
+	Number <input type="text" id="b2n" value="20" onchange="readform()" size="5"></input>
+	Colour <input type="text" id="b2c" value="#0f0" onchange="readform()" size="5"></input>
+	Speed <input type="text" id="b2speed" value="2" onchange="readform()" size="5"></input>
+	Max Turn <input type="text" id="b2mturn" value="10" onchange="readform()" size="5"></input>
+	Edge Avoid Distance <input type="text" id="b2edged" value="50" onchange="readform()" size="5"></input>
+	Edge Avoid Multipler <input type="text" id="b2edgem" value="1.0" onchange="readform()" size="5"></input>
+	Edge Avoid Max Turn <input type="text" id="b2edgemt" value="10" onchange="readform()" size="5"></input>
+	Collision Avoid Distance <input type="text" id="b2cold" value="20" onchange="readform()" size="5"></input>
+	Collision Avoid Multipler <input type="text" id="b2colm" value="1.0" onchange="readform()" size="5"></input>
+	Collision Avoid Max Turn <input type="text" id="b2colmt" value="15" onchange="readform()" size="5"></input>
+	Match Heading Multiplier <input type="text" id="b2mhm" value="1.0" onchange="readform()" size="5"></input>
+	Match Heading Max Turn <input type="text" id="b2mhmt" value="2" onchange="readform()" size="5"></input>
+	Towards Flock Multiplier <input type="text" id="b2tfm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Max Turn <input type="text" id="b2tfmt" value="5" onchange="readform()" size="5"></input>
+
+	Local Flockmate Number <input type="text" id="b2lfn" value="5" onchange="readform()" size="5"></input>
+	Local Flockmate Max Distance <input type="text" id="b2lfmd" value="1000" onchange="readform()" size="5"></input>
+	Flock with same type only <input type="checkbox" checked="checked" id="b2only" onchange="readform()"></input>
+
+	Random Turn Factor (Gaussian) <input type="text" id="b2rtg" value="0" onchange="readform()" size="5"></input>
+	Random Turn Factor (Cauchy) <input type="text" id="b2rtc" value="0" onchange="readform()" size="5"></input>
+	</p>
+
+	<p><b>Type 4</b><br>
+	Number <input type="text" id="b3n" value="20" onchange="readform()" size="5"></input>
+	Colour <input type="text" id="b3c" value="#f0f" onchange="readform()" size="5"></input>
+	Speed <input type="text" id="b3speed" value="2" onchange="readform()" size="5"></input>
+	Max Turn <input type="text" id="b3mturn" value="10" onchange="readform()" size="5"></input>
+	Edge Avoid Distance <input type="text" id="b3edged" value="50" onchange="readform()" size="5"></input>
+	Edge Avoid Multipler <input type="text" id="b3edgem" value="1.0" onchange="readform()" size="5"></input>
+	Edge Avoid Max Turn <input type="text" id="b3edgemt" value="10" onchange="readform()" size="5"></input>
+	Collision Avoid Distance <input type="text" id="b3cold" value="20" onchange="readform()" size="5"></input>
+	Collision Avoid Multipler <input type="text" id="b3colm" value="1.0" onchange="readform()" size="5"></input>
+	Collision Avoid Max Turn <input type="text" id="b3colmt" value="15" onchange="readform()" size="5"></input>
+	Match Heading Multiplier <input type="text" id="b3mhm" value="1.0" onchange="readform()" size="5"></input>
+	Match Heading Max Turn <input type="text" id="b3mhmt" value="2" onchange="readform()" size="5"></input>
+	Towards Flock Multiplier <input type="text" id="b3tfm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Max Turn <input type="text" id="b3tfmt" value="5" onchange="readform()" size="5"></input>
+
+	Local Flockmate Number <input type="text" id="b3lfn" value="5" onchange="readform()" size="5"></input>
+	Local Flockmate Max Distance <input type="text" id="b3lfmd" value="1000" onchange="readform()" size="5"></input>
+	Flock with same type only <input type="checkbox" checked="checked" id="b3only" onchange="readform()"></input>
+
+	Random Turn Factor (Gaussian) <input type="text" id="b3rtg" value="0" onchange="readform()" size="5"></input>
+	Random Turn Factor (Cauchy) <input type="text" id="b3rtc" value="0" onchange="readform()" size="5"></input>
+	</p>
+
+	<p><b>Description</b></p>
+	
+	<p>Boids of a feather flock together! I've set up a <a href="http://en.wikipedia.org/wiki/Boids">Boids</a>
+		simulation, based on Craig Reynolds original concept, and added lots of parameters to tweak, and
+		the option of having up to four types of boid. It's possible to tweak the parameters for each
+		type of boid; also, boids with the "Flock with same type only" option selected will only
+		steer towards, and match aligment with, boids of their own type.</p>
+		
+	<p>It seems that there are (at least) two ways to get boids to self-sort into flocks of a single
+	variety - either by using the "Flock with same type only" option, or by adjusting the parameters
+	so that different types have different parameters. One simple thing to try is speed; if you
+	have fast boids and slow boids, then fast boids are likely to go off and form a group of their
+	own.</p>
+	
+    <p>Peter Corbett, 2014</p>
+    <script src="ht5boids.js"></script>
+  </body>
+</html>
