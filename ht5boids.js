@@ -53,6 +53,9 @@ var bcolm = [];
 var bcolmt = [];
 var btfm = [];
 var btfmt = [];
+var btffm = [];
+var btffmt = [];
+var btfft = [];
 var bmhm = [];
 var bmhmt = [];
 var blfn = [];
@@ -79,6 +82,9 @@ function readform() {
 		bcolmt[i] = parseFloat(document.getElementById("b" + i + "colmt").value);
 		btfm[i] = parseFloat(document.getElementById("b" + i + "tfm").value);
 		btfmt[i] = parseFloat(document.getElementById("b" + i + "tfmt").value);
+		btfft[i] = parseFloat(document.getElementById("b" + i + "tfft").value);
+		btffm[i] = parseFloat(document.getElementById("b" + i + "tffm").value);
+		btffmt[i] = parseFloat(document.getElementById("b" + i + "tffmt").value);
 		bmhm[i] = parseFloat(document.getElementById("b" + i + "mhm").value);
 		bmhmt[i] = parseFloat(document.getElementById("b" + i + "mhmt").value);
 		blfn[i] = parseFloat(document.getElementById("b" + i + "lfn").value);
@@ -219,6 +225,8 @@ function update() {
 		var avgy = 0;
 		var avgdx = 0;
 		var avgdy = 0;
+		var avgfx = 0;
+		var avgfy = 0;
 		var avgnm = blfn[item.type];
 		var avgn = 0;
 		for(j=0;j<avgnm&&j<closest.length;j++) {
@@ -228,6 +236,8 @@ function update() {
 			avgy += i2.y;
 			avgdx += i2.dx;
 			avgdy += i2.dy;
+			avgfx += i2.x + (i2.dx * bspeed[i2.type] * btfft[item.type]);
+			avgfy += i2.y + (i2.dy * bspeed[i2.type] * btfft[item.type]);
 		}
 		// If there's anything like a local flock...
 		if(avgn > 0) {
@@ -235,6 +245,8 @@ function update() {
 			avgy /= avgn;
 			avgdx /= avgn;
 			avgdy /= avgn;
+			avgfx /= avgn;
+			avgfy /= avgn;
 			
 			// Turn towards local flock
 			var tfm = btfm[item.type];
@@ -251,6 +263,21 @@ function update() {
 				turn += Math.min(hd * tfm, tfmt);
 			}
 
+			// Turn towards local flock forecast
+			var tffm = btffm[item.type];
+			var tffmt = btffmt[item.type];
+
+			head = r2d * Math.atan2(avgfx - item.x, item.y - avgfy);
+			dista = Math.sqrt(((item.x - avgx)*(item.x - avgx))+((item.y - avgy)*(item.y - avgy)));
+			hd = head - item.dir;
+			if(hd > 180) hd -= 360;
+			if(hd < -180) hd += 360;
+			if(hd < 0 && hd > -180) {
+				turn -= Math.min(-hd * tffm, tffmt);
+			} else if(hd >=0 && hd < 180) {
+				turn += Math.min(hd * tffm, tffmt);
+			}
+			
 			// Match heading with local flock
 			var mhm = bmhm[item.type];
 			var mhmt = bmhmt[item.type];

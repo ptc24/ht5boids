@@ -39,6 +39,9 @@
 	Match Heading Max Turn <input type="text" id="b0mhmt" value="2" onchange="readform()" size="5"></input>
 	Towards Flock Multiplier <input type="text" id="b0tfm" value="1.0" onchange="readform()" size="5"></input>
 	Towards Flock Max Turn <input type="text" id="b0tfmt" value="5" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Multiplier <input type="text" id="b0tffm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Max Turn <input type="text" id="b0tffmt" value="0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Time <input type="text" id="b0tfft" value="10" onchange="readform()" size="5"></input>
 
 	Local Flockmate Number <input type="text" id="b0lfn" value="5" onchange="readform()" size="5"></input>
 	Local Flockmate Max Distance <input type="text" id="b0lfmd" value="1000" onchange="readform()" size="5"></input>
@@ -63,6 +66,9 @@
 	Match Heading Max Turn <input type="text" id="b1mhmt" value="2" onchange="readform()" size="5"></input>
 	Towards Flock Multiplier <input type="text" id="b1tfm" value="1.0" onchange="readform()" size="5"></input>
 	Towards Flock Max Turn <input type="text" id="b1tfmt" value="5" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Multiplier <input type="text" id="b1tffm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Max Turn <input type="text" id="b1tffmt" value="0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Time <input type="text" id="b1tfft" value="10" onchange="readform()" size="5"></input>
 
 	Local Flockmate Number <input type="text" id="b1lfn" value="5" onchange="readform()" size="5"></input>
 	Local Flockmate Max Distance <input type="text" id="b1lfmd" value="1000" onchange="readform()" size="5"></input>
@@ -87,6 +93,9 @@
 	Match Heading Max Turn <input type="text" id="b2mhmt" value="2" onchange="readform()" size="5"></input>
 	Towards Flock Multiplier <input type="text" id="b2tfm" value="1.0" onchange="readform()" size="5"></input>
 	Towards Flock Max Turn <input type="text" id="b2tfmt" value="5" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Multiplier <input type="text" id="b2tffm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Max Turn <input type="text" id="b2tffmt" value="0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Time <input type="text" id="b2tfft" value="10" onchange="readform()" size="5"></input>
 
 	Local Flockmate Number <input type="text" id="b2lfn" value="5" onchange="readform()" size="5"></input>
 	Local Flockmate Max Distance <input type="text" id="b2lfmd" value="1000" onchange="readform()" size="5"></input>
@@ -111,6 +120,9 @@
 	Match Heading Max Turn <input type="text" id="b3mhmt" value="2" onchange="readform()" size="5"></input>
 	Towards Flock Multiplier <input type="text" id="b3tfm" value="1.0" onchange="readform()" size="5"></input>
 	Towards Flock Max Turn <input type="text" id="b3tfmt" value="5" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Multiplier <input type="text" id="b3tffm" value="1.0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Max Turn <input type="text" id="b3tffmt" value="0" onchange="readform()" size="5"></input>
+	Towards Flock Forecast Time <input type="text" id="b3tfft" value="10" onchange="readform()" size="5"></input>
 
 	Local Flockmate Number <input type="text" id="b3lfn" value="5" onchange="readform()" size="5"></input>
 	Local Flockmate Max Distance <input type="text" id="b3lfmd" value="1000" onchange="readform()" size="5"></input>
@@ -133,6 +145,23 @@
 	so that different types have different parameters. One simple thing to try is speed; if you
 	have fast boids and slow boids, then fast boids are likely to go off and form a group of their
 	own.</p>
+	
+	<p><b>Alternative Flocking Mechanism</b> - the classic boids uses three mechanism to create flocking.
+	One is a mechanism to avoid collisions, one is to turn the boids towards the "local flock" (i.e. the
+	closest few other boids), and one is to turn the boids to match the average heading of the "local flock".
+	However, it is possible to replace the last two of these with a single unified mechanism. Turn 
+	"Match Heading Max Turn" and "Towards Flock Max Turn" to zero to deactivate those two, then turn 
+	"Towards Flock Forecast Max Turn" up to 5.</p>
+	
+	<p>The alternative mechanism is a lot like the old mechanism which turns the boids towards the "local
+	flock" - i.e. the average position of the closest few other boids. However, instead of considering the
+	position right now, it makes forecasts as to where the other boids will be in a small number of frames
+	- ten by default, and turns towards the average of those forecasts. In effect, if the nearby boids are
+	widely scattered, or pointing in many different directions, then this will have a similar effect to
+	just going to where the boids are. However, if the boids are close together and all pointing in roughly
+	the	direction, this will point the boid towards where nearby boids are going. The "forecast" is very 
+	simple - it just assumes the boids will keep going forwards in a straight line. It's close enough to
+	give the desired effect.</p>
 	
     <p>Peter Corbett, 2014</p>
     <script src="ht5boids.js"></script>
